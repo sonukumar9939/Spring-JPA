@@ -14,8 +14,19 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 @Entity
 @Table(name = "users")
+@Data
+@ToString
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class User 
 {
 	@Id
@@ -32,59 +43,5 @@ public class User
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true, mappedBy = "user")
 	@NotNull
 	private User_Details userDetails;
-
-	public User() {
-
-	}
-
-	
-
-	public User(int id, @NotBlank String username, @NotBlank String password, @NotNull User_Details userDetails) {
-		super();
-		Id = id;
-		this.username = username;
-		this.password = password;
-		this.userDetails = userDetails;
-	}
-
-
-
-	public int getId() {
-		return Id;
-	}
-
-	public void setId(int id) {
-		Id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public User_Details getUserDetails() {
-		return userDetails;
-	}
-
-	public void setUserDetails(User_Details userDetails) {
-		this.userDetails = userDetails;
-	}
-
-	@Override
-	public String toString() {
-		return "User [Id=" + Id + ", username=" + username + ", password=" + password + ", userDetails=" + userDetails
-				+ "]";
-	}
 
 }

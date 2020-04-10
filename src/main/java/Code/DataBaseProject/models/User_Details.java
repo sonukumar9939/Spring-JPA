@@ -11,8 +11,17 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 @Entity
 @Table(name = "user_details")
+@Data
+@ToString
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class User_Details 
 {
 
@@ -33,76 +42,5 @@ public class User_Details
 	@JsonIgnore
 	private User user;
 
-	public User_Details() {
-
-	}
-
-	public User_Details(int id, String firstName, String lastName, String emailId, Integer mobileNo) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailId = emailId;
-		this.mobileNo = mobileNo;
-
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
-
-	@Override
-	public String toString() {
-		return "User_Details [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
-				+ ", mobileNo=" + mobileNo + ", user=" + user + "]";
-	}
-
-	public Integer getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(Integer mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	
-
-	
 
 }

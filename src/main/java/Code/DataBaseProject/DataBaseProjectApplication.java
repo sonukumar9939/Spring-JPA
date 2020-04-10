@@ -10,11 +10,7 @@ public class DataBaseProjectApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(DataBaseProjectApplication.class, args);
 
-//		Getting all Created Bean names
-		/*
-		 * for(String bean: context.getBeanDefinitionNames()) {
-		 * System.out.println(bean); }
-		 */
+		
 
 	}
 
