@@ -39,5 +39,8 @@ public class UserSetupService {
 	public List<User> findUsersByName(String userName) {
 		return userRepository.findUsersByName(userName);
 	}
+	public void deleteEntity(User user) {
+		userRepository.delete(user);		
+	}
 
 }

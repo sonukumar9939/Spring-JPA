@@ -1,6 +1,8 @@
 package Code.DataBaseProject.models;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,12 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -31,42 +31,40 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "users")
+@Table(name = "students")
 @Data
 @ToString
-@EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor(force = true)
+@EqualsAndHashCode( exclude={"subjects"})
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class User 
-{
+public class Student {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
 
-	@NotBlank(message = "Username Cannot be empty")
-	private String username;
+	@Column(name = "student_name")
+	private String studentName;
 
-	@NotBlank
-	private String password;
-	
+	@Column(name = "roll_no")
+	private String rollNo;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
-	@Column(name = "created_on", nullable = true, updatable = true)
+	@Column(name = "craeted_on", nullable = true, updatable = true)
 	private Date createdOn;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@LastModifiedDate
-	@Column(name = "last_modified_on", nullable = true, updatable = true)
-	private Date lastModifiedOn;
-	
+
 	@CreatedBy
 	@Column(name = "created_by", nullable = true, updatable = true)
 	private String createdBy;
 
+	@LastModifiedDate
+	@Column(name = "last_modified_on", nullable = true, updatable = true)
+	private String lastModifiedOn;
+	
 	@Fetch(FetchMode.SELECT)
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-	@NotNull
-	private User_Details userDetails;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval= true,mappedBy= "student")
+	private Set<Subjects> subjects = new LinkedHashSet<Subjects>();
 
 }

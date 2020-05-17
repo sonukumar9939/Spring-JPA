@@ -9,6 +9,8 @@ public class SuccessRestResponse {
 
 	private long timestamp;
 
+	private String message;
+
 	private Object data;
 
 }

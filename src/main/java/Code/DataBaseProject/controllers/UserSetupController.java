@@ -97,6 +97,26 @@ public class UserSetupController {
 			return new ResponseEntity<SuccessRestResponse>(response, HttpStatus.OK);
 		}
 
-	}	
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<SuccessRestResponse> deleteEntity(@PathVariable ("id") int id) throws FunctionalException{
+		SuccessRestResponse response = new SuccessRestResponse();
+		logger.info("Entity Deletion process initiated");
+		
+		User user = userSetupService.findById(id);
+		if(user== null) {
+			response.setMessage("there does not exists any entity with id " + id );
+			response.setSuccess(false);
+			response.setTimestamp(System.currentTimeMillis());
+			return new ResponseEntity<SuccessRestResponse> (response,HttpStatus.NOT_FOUND);
+		}else {
+			userSetupService.deleteEntity(user);
+			response.setMessage("there does not exists any entity with id " + id );
+			response.setSuccess(false);
+			response.setTimestamp(System.currentTimeMillis());
+			return new ResponseEntity<SuccessRestResponse> (response,HttpStatus.NO_CONTENT);
+		}		
+	}
 
 }
