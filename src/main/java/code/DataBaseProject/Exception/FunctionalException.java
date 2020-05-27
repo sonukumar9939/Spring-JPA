@@ -1,10 +1,7 @@
-package Code.DataBaseProject.Exception;
+package code.DataBaseProject.Exception;
 
-public class FunctionalException extends Throwable{
+public class FunctionalException extends Exception{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String message;
 

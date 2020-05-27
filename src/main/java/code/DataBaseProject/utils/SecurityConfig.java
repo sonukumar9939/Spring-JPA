@@ -1,4 +1,4 @@
-package Code.DataBaseProject.utils;
+package code.DataBaseProject.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

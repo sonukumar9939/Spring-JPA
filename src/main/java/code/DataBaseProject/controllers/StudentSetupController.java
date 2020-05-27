@@ -1,4 +1,4 @@
-package Code.DataBaseProject.controllers;
+package code.DataBaseProject.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import Code.DataBaseProject.Exception.FunctionalException;
-import Code.DataBaseProject.Response.SuccessRestResponse;
-import Code.DataBaseProject.models.Student;
-import Code.DataBaseProject.service.StudentSetupService;
+import code.DataBaseProject.Exception.FunctionalException;
+import code.DataBaseProject.Response.SuccessRestResponse;
+import code.DataBaseProject.models.Student;
+import code.DataBaseProject.service.StudentSetupService;
 
 @RestController
 @RequestMapping(value = "/students")

@@ -1,4 +1,4 @@
-package Code.DataBaseProject.models;
+package code.DataBaseProject.models;
 
 import java.util.Date;
 import java.util.LinkedHashSet;

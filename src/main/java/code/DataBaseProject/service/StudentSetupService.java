@@ -1,4 +1,4 @@
-package Code.DataBaseProject.service;
+package code.DataBaseProject.service;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -6,10 +6,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Code.DataBaseProject.Repository.StudentRepositiory;
-import Code.DataBaseProject.Repository.SubjectsRepository;
-import Code.DataBaseProject.models.Student;
-import Code.DataBaseProject.models.Subjects;
+import code.DataBaseProject.Repository.StudentRepositiory;
+import code.DataBaseProject.Repository.SubjectsRepository;
+import code.DataBaseProject.models.Student;
+import code.DataBaseProject.models.Subjects;
 
 @Service
 public class StudentSetupService {

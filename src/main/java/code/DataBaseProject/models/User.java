@@ -1,4 +1,4 @@
-package Code.DataBaseProject.models;
+package code.DataBaseProject.models;
 
 import java.util.Date;
 
@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -38,8 +40,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @EntityListeners(AuditingEntityListener.class)
-public class User 
-{
+@NamedQueries({
+		@NamedQuery(name = "User.findUsersByNameAndCreator", query = "Select u FROM User u  where u.username= ?1 And u.createdBy=?2"),
+		@NamedQuery(name = "User.findUserNameWithGivenCharacters", query = "Select u FROM User u where u.username LIKE CONCAT('%',?1,'%')"),
+		@NamedQuery(name = "User.findUsersByCreatedDate", query = "Select u FROM User u  where u.createdOn= ?1")
+	})
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
@@ -49,17 +55,17 @@ public class User
 
 	@NotBlank
 	private String password;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	@Column(name = "created_on", nullable = true, updatable = true)
 	private Date createdOn;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate
 	@Column(name = "last_modified_on", nullable = true, updatable = true)
 	private Date lastModifiedOn;
-	
+
 	@CreatedBy
 	@Column(name = "created_by", nullable = true, updatable = true)
 	private String createdBy;

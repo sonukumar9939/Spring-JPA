@@ -1,4 +1,4 @@
-package Code.DataBaseProject.Response;
+package code.DataBaseProject.Response;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package Code.DataBaseProject.utils;
+package code.DataBaseProject.utils;
 
 import java.util.Optional;
 
