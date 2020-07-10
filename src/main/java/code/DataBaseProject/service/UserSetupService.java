@@ -1,39 +1,45 @@
 package code.DataBaseProject.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import code.DataBaseProject.Repository.UserRepository;
 import code.DataBaseProject.models.User;
 
 @Service
 public class UserSetupService {
+	
+	private static Logger logger= LoggerFactory.getLogger(UserSetupService.class);
 
 	@Autowired
+	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Autowired
-	private UserRepository userRepository;
-
+	
+	@Transactional
 	public void saveUserDetails(User user) {
-		userRepository.save(user);
-
+		entityManager.persist(user);
+		entityManager.detach(user); 
+	    user.setUsername("room");
 	}
-
+	
+	@Transactional
 	public User findById(int id) {
-		return userRepository.findUserById(id);
+		TypedQuery<User> query = entityManager.createQuery("Select u from User u where u.Id=?1", User.class);
+		query.setParameter(1, id);
+		return query.getSingleResult();
 	}
-
-	public User saveEntity(User userDetails, User user) {
+	@Transactional
+	public User updateEntity(User userDetails, User user) {
 		userDetails.setPassword(user.getPassword());
 		userDetails.setUsername(user.getUsername());
 		userDetails.getUserDetails().setEmailId(user.getUserDetails().getEmailId());
@@ -43,18 +49,22 @@ public class UserSetupService {
 		userDetails.getUserDetails().setUser(userDetails);
 		return userDetails;
 	}
-
+	@Transactional
 	public List<User> findUsersByName(String userName) {
-		return userRepository.findUsersByName(userName);
+		TypedQuery<User> query = entityManager.createQuery("Select u from User u where u.username=:userName", User.class);
+		query.setParameter("userName", userName);
+		return query.getResultList();
 	}
-
+	
+	@Transactional
 	public void deleteEntity(User user) {
-		userRepository.delete(user);
+		entityManager.remove(user);
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<User> findUsersByNameAndCreator(String userName, String createdBy) {
-		Query q = entityManager.createNamedQuery("User.findUsersByNameAndCreator");
+		TypedQuery<User> q = entityManager.createNamedQuery("User.findUsersByNameAndCreator", User.class);
 		q.setParameter(1, userName);
 		q.setParameter(2, createdBy);
 
@@ -62,18 +72,15 @@ public class UserSetupService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<User> findByGivenCaracters(String userName) {
-		Query query = entityManager.createNamedQuery("User.findUserNameWithGivenCharacters");
+		Query query = entityManager.createQuery("Select u from User u where u.username LIKE CONCAT('%',?1,'%')");
 //		query.setFirstResult(6);
 		query.setParameter(1, userName);
 		return query.getResultList();
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<User> findByCreationDate(String userName) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-		Query query = entityManager.createNamedQuery("User.findUsersByCreatedDate");
-		query.setParameter(1, format.parse(userName), TemporalType.TIMESTAMP);
-		return query.getResultList();
+	public void updateUserDetails(User updateEntity) {
+		entityManager.merge(updateEntity);
+		
 	}
 }

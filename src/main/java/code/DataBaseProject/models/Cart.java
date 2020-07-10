@@ -1,8 +1,8 @@
 package code.DataBaseProject.models;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,8 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,29 +29,28 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "student")
+@Table(name = "cart")
 @Data
 @ToString
 @NoArgsConstructor(force = true)
-@EqualsAndHashCode(exclude = { "courses" })
+@EqualsAndHashCode( exclude={"items"})
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@NamedQuery(name = "Student.findStudentByName", query = "Select s from Student s where s.studentName =?1")
-public class Student {
+public class Cart {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
 
-	@Column(name = "student_name", unique = true)
-	private String studentName;
+	@Column(name = "cart_holder")
+	private String cartHolder;
 
-	@Column(name = "roll_no")
-	private String rollNo;
+	@Column(name = "cart_session")
+	private String cartSession;
 
 	@CreationTimestamp
 	@Column(name = "craeted_on", nullable = true, updatable = true)
-	private Date createdOn;
+	private LocalDateTime createdOn;
 
 	@CreatedBy
 	@Column(name = "created_by", nullable = true, updatable = true)
@@ -60,10 +58,10 @@ public class Student {
 
 	@UpdateTimestamp
 	@Column(name = "last_modified_on", nullable = true, updatable = true)
-	private Date lastModifiedOn;
-
+	private LocalDateTime lastModifiedOn;
+	
 	@Fetch(FetchMode.SELECT)
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
-	private List<Course> courses = new ArrayList<Course>();
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval= true,mappedBy= "cart")
+	private Set<Items> items = new LinkedHashSet<Items>();
 
 }

@@ -1,5 +1,7 @@
 package code.DataBaseProject.Response;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -7,7 +9,7 @@ public class SuccessRestResponse {
 
 	private boolean success;
 
-	private long timestamp;
+	private LocalDateTime date;
 
 	private String message;
 
