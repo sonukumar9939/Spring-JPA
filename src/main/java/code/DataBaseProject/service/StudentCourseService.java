@@ -63,19 +63,20 @@ public class StudentCourseService {
 	public List<Student> getStudentsBetweenSpecifieddate(String startDate, String endDate) throws ParseException {
 
 		DateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSSSSS");
-		Date start_date= format.parse(startDate);
-		Date end_date= format.parse(startDate);
+		Date start_date = format.parse(startDate);
+		Date end_date = format.parse(startDate);
 		Query query = entityManager.createQuery("Select s from  Student s where s.createdOn> ?1 AND s.createdOn< ?2");
 		query.setParameter(1, start_date, TemporalType.TIMESTAMP);
 		query.setParameter(2, end_date, TemporalType.TIMESTAMP);
 		return query.getResultList();
 	}
-
-	public static void main(String args[]) throws ParseException {
-		String startDate = "2020-09-10T 12:12:12";
-		DateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss");
-		Date start_date= format.parse(startDate);
-		System.out.println(start_date);
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Course> getSubjectsBuPreference() {
+		Query query = entityManager.createQuery("Select c from Course c group by c.student HAVING Count(c.student) >3");
+		List<Course> courses= query.getResultList();
+		return courses;
 	}
 
 }

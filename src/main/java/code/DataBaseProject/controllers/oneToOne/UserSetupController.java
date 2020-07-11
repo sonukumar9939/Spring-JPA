@@ -25,7 +25,6 @@ import code.DataBaseProject.Response.SuccessRestResponse;
 import code.DataBaseProject.models.User;
 import code.DataBaseProject.service.UserSetupService;
 
-
 /**
  * @author sonu
  *
@@ -35,11 +34,10 @@ import code.DataBaseProject.service.UserSetupService;
 public class UserSetupController {
 
 	private static Logger logger = LoggerFactory.getLogger(UserSetupController.class);
-	
+
 	@Autowired
 	private UserSetupService userSetupService;
 
-	
 	/**
 	 * @param id
 	 * @return
@@ -62,9 +60,7 @@ public class UserSetupController {
 		}
 
 	}
-	
-	
-	
+
 	/**
 	 * @param userName
 	 * @param createdBy
@@ -73,10 +69,15 @@ public class UserSetupController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "getUsers/{userName}")
 	public ResponseEntity<SuccessRestResponse> getUserByUserNameAndCreator(@PathVariable("userName") String userName,
-			@RequestParam String createdBy) throws FunctionalException {
-		 SuccessRestResponse response = new SuccessRestResponse();
+			@RequestParam String createdBy, @RequestParam String criteria) throws FunctionalException {
+		SuccessRestResponse response = new SuccessRestResponse();
 		logger.info("Get User Details Process Started");
-		List<User> users = userSetupService.findUsersByNameAndCreator(userName, createdBy);
+		List<User> users = null;
+		if (criteria.equalsIgnoreCase("true")) {
+			users = userSetupService.findUsersByNameAndCreatorByCriteriaBuilder(userName, createdBy);
+		} else {
+			users = userSetupService.findUsersByNameAndCreator(userName, createdBy);
+		}
 		if (users.isEmpty()) {
 			response.setMessage("No User Exists With Given Criteria");
 			response.setSuccess(false);
@@ -98,11 +99,17 @@ public class UserSetupController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "getUsers")
-	public ResponseEntity<SuccessRestResponse> getUserByLikeOperator(@RequestParam String userName)
-			throws FunctionalException, ParseException {
+	public ResponseEntity<SuccessRestResponse> getUserByLikeOperator(@RequestParam String userName,
+			@RequestParam String criteria) throws FunctionalException, ParseException {
 		SuccessRestResponse response = new SuccessRestResponse();
 		logger.info("Get User Details Process Started");
-		List<User> users = userSetupService.findByGivenCaracters(userName);
+		List<User> users = null;
+		if (criteria.equalsIgnoreCase("true")) {
+			users = userSetupService.findByGivenCaractersUsingCriteria(userName);
+		} else {
+			users = userSetupService.findByGivenCaracters(userName);
+		}
+
 		if (users.isEmpty()) {
 			response.setMessage("No User Exists With Given Criteria");
 			response.setSuccess(false);
@@ -179,7 +186,6 @@ public class UserSetupController {
 
 	}
 
-	
 	/**
 	 * @param id
 	 * @return

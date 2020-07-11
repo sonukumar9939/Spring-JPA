@@ -44,7 +44,7 @@ public class StudentSetupController {
 	@RequestMapping(method = RequestMethod.POST, value = "save")
 	public ResponseEntity<SuccessRestResponse> saveStudentAndCourseDetails(
 			@RequestBody StudentCourseContext studentCourseContext) throws FunctionalException {
-		
+
 		LOGGER.info("Student And Course Save Process initiated");
 		SuccessRestResponse successRestResponse = new SuccessRestResponse();
 
@@ -76,7 +76,7 @@ public class StudentSetupController {
 			successRestResponse.setDate(LocalDateTime.now());
 			return new ResponseEntity<SuccessRestResponse>(successRestResponse, HttpStatus.NOT_FOUND);
 		} else {
-			successRestResponse.setMessage("Student count with Subject : " + subjectName +  " : " + students.size());
+			successRestResponse.setMessage("Student count with Subject : " + subjectName + " : " + students.size());
 			successRestResponse.setSuccess(false);
 			successRestResponse.setDate(LocalDateTime.now());
 			successRestResponse.setData(students);
@@ -84,19 +84,45 @@ public class StudentSetupController {
 		}
 
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "listUsers")
-	public ResponseEntity<SuccessRestResponse> getStudentsEnrolledBetweenSpecifiedDate(@RequestParam String startDate, @RequestParam String endDate) throws ParseException{
-		
+	public ResponseEntity<SuccessRestResponse> getStudentsEnrolledBetweenSpecifiedDate(@RequestParam String startDate,
+			@RequestParam String endDate) throws ParseException {
+
 		SuccessRestResponse successRestResponse = new SuccessRestResponse();
-		List<Student> students = studentCourseService.getStudentsBetweenSpecifieddate(startDate,endDate);
+		List<Student> students = studentCourseService.getStudentsBetweenSpecifieddate(startDate, endDate);
 		if (CollectionUtils.isEmpty(students)) {
-			successRestResponse.setMessage("No User Between Specified dates  : " + "startDate " + startDate + " enddate :" + endDate );
+			successRestResponse.setMessage(
+					"No User Between Specified dates  : " + "startDate " + startDate + " enddate :" + endDate);
 			successRestResponse.setSuccess(false);
 			successRestResponse.setDate(LocalDateTime.now());
 			return new ResponseEntity<SuccessRestResponse>(successRestResponse, HttpStatus.NOT_FOUND);
 		} else {
-			successRestResponse.setMessage("Student Between Specified dates  : " + "startDate " + startDate + " enddate :" + endDate + "studentCount : " + students.size());
+			successRestResponse.setMessage("Student Between Specified dates  : " + "startDate " + startDate
+					+ " enddate :" + endDate + "studentCount : " + students.size());
+			successRestResponse.setSuccess(false);
+			successRestResponse.setDate(LocalDateTime.now());
+			successRestResponse.setData(students);
+			return new ResponseEntity<SuccessRestResponse>(successRestResponse, HttpStatus.OK);
+		}
+
+	}
+
+	/**
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "course/prefered")
+	public ResponseEntity<SuccessRestResponse> coursePreference() {
+		LOGGER.info("Student And Course Get  Process initiated");
+		SuccessRestResponse successRestResponse = new SuccessRestResponse();
+		List<Course> students = studentCourseService.getSubjectsBuPreference();
+		if (CollectionUtils.isEmpty(students)) {
+			successRestResponse.setMessage("No Preference Of Subjects : ");
+			successRestResponse.setSuccess(false);
+			successRestResponse.setDate(LocalDateTime.now());
+			return new ResponseEntity<SuccessRestResponse>(successRestResponse, HttpStatus.NOT_FOUND);
+		} else {
+			successRestResponse.setMessage("Preference of Subjects By Students : ");
 			successRestResponse.setSuccess(false);
 			successRestResponse.setDate(LocalDateTime.now());
 			successRestResponse.setData(students);
