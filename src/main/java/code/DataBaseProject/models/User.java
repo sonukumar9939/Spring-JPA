@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +26,8 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,6 +56,16 @@ public class User {
 	@NotBlank
 	private String password;
 
+	/*
+	 * @Embedded
+	 * 
+	 * @Column(name = "address", nullable = true, updatable = true) private Address
+	 * address;
+	 */
+	
+//	@Enumerated(value = EnumType.STRING)
+//	private MariatialStautus maritialstatus;
+	
 	@CreationTimestamp
 	@Column(name = "created_on", nullable = true, updatable = true)
 	private LocalDateTime createdOn;

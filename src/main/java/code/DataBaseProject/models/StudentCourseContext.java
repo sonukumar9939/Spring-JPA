@@ -1,23 +1,25 @@
 package code.DataBaseProject.models;
 
+import java.util.List;
+
 public class StudentCourseContext {
 
-	private Student studentContext;
-	private Course courseContext;
+	private List<Student> studentContext;
+	private List<Course> courseContext;
 
-	public Student getStudentContext() {
+	public List<Student> getStudentContext() {
 		return studentContext;
 	}
 
-	public void setStudentContext(Student studentContext) {
+	public void setStudentContext(List<Student> studentContext) {
 		this.studentContext = studentContext;
 	}
 
-	public Course getCourseContext() {
+	public List<Course> getCourseContext() {
 		return courseContext;
 	}
 
-	public void setCourseContext(Course courseContext) {
+	public void setCourseContext(List<Course> courseContext) {
 		this.courseContext = courseContext;
 	}
 

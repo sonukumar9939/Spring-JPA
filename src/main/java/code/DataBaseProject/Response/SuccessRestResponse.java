@@ -14,5 +14,11 @@ public class SuccessRestResponse {
 	private String message;
 
 	private Object data;
+	
+	private String startPage;
+	
+	private int pageSize;
+	
+	private int totalPages;
 
 }

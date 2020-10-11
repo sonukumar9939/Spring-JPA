@@ -3,9 +3,6 @@ package code.DataBaseProject.service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class StudentCourseService {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Transactional
+	@Transactional()
 	public void createEntity(Student student, Course course, JSONObject studentdetails, JSONObject coursedetails)
 			throws FunctionalException {
 

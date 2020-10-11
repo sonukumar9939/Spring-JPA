@@ -53,7 +53,7 @@ public class Student {
 	@CreationTimestamp
 	@Column(name = "craeted_on", nullable = true, updatable = true)
 	private Date createdOn;
-
+ 
 	@CreatedBy
 	@Column(name = "created_by", nullable = true, updatable = true)
 	private String createdBy;

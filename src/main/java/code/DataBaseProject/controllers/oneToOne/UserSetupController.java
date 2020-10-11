@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code.DataBaseProject.Exception.FunctionalException;
 import code.DataBaseProject.Response.SuccessRestResponse;
+import code.DataBaseProject.models.MariatialStautus;
 import code.DataBaseProject.models.User;
 import code.DataBaseProject.service.UserSetupService;
 
@@ -58,7 +59,6 @@ public class UserSetupController {
 			response.setData(user);
 			return new ResponseEntity<SuccessRestResponse>(response, HttpStatus.OK);
 		}
-
 	}
 
 	/**
@@ -146,6 +146,24 @@ public class UserSetupController {
 		}
 
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/getAllUsers")
+	public ResponseEntity<SuccessRestResponse> getAllUsers()
+			throws FunctionalException {
+		SuccessRestResponse response = new SuccessRestResponse();
+		List<User> users = userSetupService.findAllusers();
+		if (CollectionUtils.isEmpty(users)) {
+			response.setSuccess(false);
+			response.setDate(LocalDateTime.now());
+			return new ResponseEntity<SuccessRestResponse>(response, HttpStatus.NOT_FOUND);
+		} else {
+			response.setSuccess(true);
+			response.setDate(LocalDateTime.now());
+			response.setData(users);
+			return new ResponseEntity<SuccessRestResponse>(response, HttpStatus.OK);
+		}
+
+	}
 
 	/**
 	 * @param user
@@ -156,6 +174,7 @@ public class UserSetupController {
 	public ResponseEntity<SuccessRestResponse> saveUser(@Valid @RequestBody User user) throws FunctionalException {
 
 		logger.info("Save User Process Started");
+//		user.setMaritialstatus(MariatialStautus.marrierd);
 		user.getUserDetails().setUser(user);
 		userSetupService.saveUserDetails(user);
 		SuccessRestResponse response = new SuccessRestResponse();

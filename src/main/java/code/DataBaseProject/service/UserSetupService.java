@@ -2,8 +2,8 @@ package code.DataBaseProject.service;
 
 import java.util.List;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -16,8 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import code.DataBaseProject.models.MariatialStautus;
 import code.DataBaseProject.models.User;
 
 @Service
@@ -115,7 +118,7 @@ public class UserSetupService {
 		return q.getResultList();
 	}
 
-	@Transactional
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public List<User> findByGivenCaractersUsingCriteria(String userName) {
 		logger.info("Criteria Like Api");
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -123,13 +126,26 @@ public class UserSetupService {
 
 		Root<User> userRoot = createQuery.from(User.class);
 
-		Predicate predicate = cb.like(userRoot.get("username") ,userName+'%');
+		Predicate predicate = cb.like(userRoot.get("username"), userName + '%');
 
 		createQuery.where(predicate);
 
 		TypedQuery<User> query = entityManager.createQuery(createQuery.select(userRoot));
 
 		return query.getResultList();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<User> findAllusers() {
+		
+		logger.info("fired");
+		
+		EntityGraph<User> entityGraph= entityManager.createEntityGraph(User.class);
+		entityGraph.addSubgraph("userDetails");
+		
+		return entityManager.createQuery("Select u from User u", User.class)
+				.setHint("javax.persistence.loadgraph", entityGraph)
+				.getResultList();
 	}
 
 }

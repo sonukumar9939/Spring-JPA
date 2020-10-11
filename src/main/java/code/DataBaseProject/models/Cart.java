@@ -18,7 +18,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -36,6 +38,8 @@ import lombok.ToString;
 @EqualsAndHashCode( exclude={"items"})
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql="update cart set is_active=0 where id=?")
+@Where(clause="is_active= 1")
 public class Cart {
 
 	@Id
@@ -55,6 +59,9 @@ public class Cart {
 	@CreatedBy
 	@Column(name = "created_by", nullable = true, updatable = true)
 	private String createdBy;
+	
+	@Column(name = "is_active", nullable = true, updatable = true)
+	private int isActive;
 
 	@UpdateTimestamp
 	@Column(name = "last_modified_on", nullable = true, updatable = true)

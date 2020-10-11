@@ -35,11 +35,7 @@ public class StudentSetupController {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(StudentSetupController.class);
 
-	/**
-	 * @param studentCourseContext
-	 * @return
-	 * @throws FunctionalException
-	 */
+	
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST, value = "save")
 	public ResponseEntity<SuccessRestResponse> saveStudentAndCourseDetails(
@@ -130,4 +126,5 @@ public class StudentSetupController {
 		}
 
 	}
+	
 }
